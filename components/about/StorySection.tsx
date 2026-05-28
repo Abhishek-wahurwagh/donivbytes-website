@@ -19,7 +19,7 @@ const storyBlocks = [
   },
   {
     label: "Engineering Philosophy",
-    placeholder: "ONIVBYTES believes engineering is about building first and overthinking less, learning deeply, documenting what matters, automating repetitive work, and designing systems that scale beyond the first successful deployment. Technology moves fast enough already — pretending to know everything only slows learning down. We believe good engineering is not about appearing smart; it is about staying curious, continuously learning, building better systems, and surviving production deployments with dignity still intact",
+    placeholder: "DONIVBYTES believes engineering is about building first and overthinking less, learning deeply, documenting what matters, automating repetitive work, and designing systems that scale beyond the first successful deployment. Technology moves fast enough already — pretending to know everything only slows learning down. We believe good engineering is not about appearing smart; it is about staying curious, continuously learning, building better systems, and surviving production deployments with dignity still intact",
   },
 ];
 
@@ -40,14 +40,14 @@ export default function StorySection() {
               <span className="text-[#ffde59]">.</span>
             </h2>
             <p className="text-lg text-neutral-500 leading-relaxed">
-              Every great platform starts with a problem worth solving. Here&apos;s ours.
+              &ldquo;One byte at a time.&rdquo;
             </p>
 
             {/* Decorative element */}
             <div className="mt-12 p-6 bg-black rounded-2xl">
               <p className="text-[#ffde59] font-mono text-sm mb-2"></p>
-              <p className="text-white text-xl font-semibold">&ldquo;One byte at a time.&rdquo;</p>
-              <p className="text-white/40 text-sm mt-2">        — DONIVBYTES</p>
+              <p className="text-white text-xl font-semibold">Every great platform starts with a problem worth solving. Here&apos;s ours.</p>
+              <p className="text-white/40 text-sm mt-2">  — DONIVBYTES</p>
             </div>
           </AnimatedSection>
 
