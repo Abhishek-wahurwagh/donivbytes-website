@@ -9,7 +9,7 @@ const founders = [
     name: "Abhishek V Wahurwagh",
     role: "Founder & CEO",
     image: null,
-    bio: "[ PLACEHOLDER — Add the founder's background, expertise, and vision here. What drives them? What have they built before? What is their engineering philosophy? ]",
+    bio: "I am ceo of ",
     highlights: [
       "[  in cloud infrastructure ]",
       "[ Highlight 2 — e.g., Former engineer at X ]",
