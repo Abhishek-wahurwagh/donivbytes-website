@@ -10,8 +10,8 @@ const pillars = [
         <path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    title: "Cloud Engineering",
-    description: "Architecting resilient, scalable cloud infrastructure across AWS, GCP, and hybrid environments.",
+    title: "Cloud Learning",
+    description: "Help students learn cloud technologies through practical labs and guided environments.",
   },
   {
     icon: (
@@ -28,8 +28,8 @@ const pillars = [
         <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    title: "AI Integration",
-    description: "Embedding intelligent automation and ML-driven insights into every layer of the stack.",
+    title: "Virtual Labs",
+    description: "Launch ready-to-use Linux, Docker, Kubernetes, and DevOps environments.",
   },
   {
     icon: (
@@ -37,8 +37,8 @@ const pillars = [
         <path d="M13 10V3L4 14h7v7l9-11h-7z" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    title: "Scalable Systems",
-    description: "Designing distributed systems that grow with your business — from zero to planetary scale.",
+    title: "DevOps Engineering",
+    description: "Automation, CI/CD, Infrastructure as Code, and cloud-native workflows.",
   },
   {
     icon: (
@@ -78,8 +78,9 @@ export default function Overview() {
             at a time.
           </h2>
           <p className="text-lg text-neutral-500 leading-relaxed">
-            DONIVBYTES is a cloud-native engineering collective focused on building infrastructure, platforms, intelligent systems, and making technology a little less intimidating for people trying to learn it.
-Working across cloud engineering, DevOps, AI, and education, we're building scalable systems, automating repetitive problems, sharing what we learn, and slowly turning late-night engineering experiments into something that hopefully survives production.
+            DONIVBYTES is a student-led engineering collective focused on cloud computing, DevOps, automation, AI, and practical technology education.
+We build projects, experiment with infrastructure, share what we learn, and create tools that help students gain hands-on experience with modern technology.
+Our flagship initiative, CloudMateFusion (CMF), is being built to make cloud learning and virtual infrastructure more accessible to students and training institutes.
           </p>
         </AnimatedSection>
 

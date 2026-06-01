@@ -13,7 +13,7 @@ const slides = [
     subtitle: "CMF",
     tagline: "Overview of CMF Project",
     description:
-      "A cloud-native platform engineered for scale. CloudMateFusion unifies DevOps pipelines, AI-driven automation, and real-time infrastructure orchestration into a single, elegant interface.",
+      "CloudMateFusion (CMF) is a cloud learning platform designed to help students launch practical cloud labs, virtual machines, and DevOps environments without dealing with infrastructure complexity.",
     tags: ["Cloud-Native", "AI/ML", "DevOps", "Kubernetes"],
     cta: [
       { label: "Explore CMF", href: "/projects", variant: "accent" as const },

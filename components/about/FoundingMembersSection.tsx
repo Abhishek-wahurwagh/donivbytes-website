@@ -1,5 +1,5 @@
 "use client";
-
+import { FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import AnimatedSection from "@/components/ui/AnimatedSection";
@@ -10,12 +10,14 @@ const foundingMembers = [
     name: "Omkar R Patil",
     role: "Co-Founder & Lead AI Engineer ",
      image: "8.jpg",
+    linkedin: "https://www.linkedin.com/in/omkar-patil-7b32942aa",
     description:"Usually teaching machines how to think while the rest of us are still defining the problem. Responsible for many of the team's smartest ideas and most ambitious experiments."
   },
   {
     name: "Ankit V Patil",
     role: "Co-Founder & AI Infrastructure Engineer",
     image: "ankya.jpg",
+    linkedin: "https://www.linkedin.com/in/ankit-patil-3b9148260",
     description:
       "Usually found experimenting with AI models and asking 'what if we try this?' one more time.Works on both AI systems and the infrastructure that powers them. Usually found automating something, optimizing something else, and occasionally creating three new ideas before the current one is finished.",
   },
@@ -23,6 +25,7 @@ const foundingMembers = [
     name: "Sanika Gulkotwar",
     role: "Co-Founder & Operations Lead",
     image: "9.jpg",
+    linkedin: "https://www.linkedin.com/in/sanika-gulkotwar-ab8484241",
     description:
       "Responsible for operations, planning, and occasionally reminding the engineering team that products need users, not just features. Also learning the technical side fast enough to keep up with the chaos.",
   },
@@ -52,7 +55,7 @@ function FoundingMemberCard({
     src={`/team/${member.image}`}
      alt={member.name}
      fill
-    className="object-cover transition-transform duration-500 group-hover:scale-105"
+    className="object-cover transition-transform duration-500 group-hover:scale-110"
    />
 
   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
@@ -62,7 +65,15 @@ function FoundingMemberCard({
 
       {/* Content */}
       <div className="p-6">
-        <h3 className="font-semibold text-black mb-1">{member.name}</h3>
+        <div className="flex items-center justify-between mb-1">
+          <h3 className="font-semibold text-black">
+            {member.name}
+          </h3>
+          <a href={member.linkedin} target="_blank"  rel="noopener noreferrer"
+          className="text-[#0A66C2] hover:scale-210 transition-all duration-300">
+          <FaLinkedin size={24} />
+          </a>
+        </div>
         <p className="text-xs text-[#ffde59] bg-black rounded-full px-3 py-1 inline-block mb-3 font-medium">
           {member.role}
         </p>
