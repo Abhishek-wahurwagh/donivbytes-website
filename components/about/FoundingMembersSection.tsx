@@ -1,27 +1,30 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Badge from "@/components/ui/Badge";
 
 const foundingMembers = [
   {
-    name: "[ Founding Member 1 ]",
-    role: "[ Role — e.g., Lead Engineer ]",
-    description:
-      "[ PLACEHOLDER — Short bio or description of this founding member's expertise and contributions to DONIVBYTES. ]",
+    name: "Omkar R Patil",
+    role: "Co-Founder & Lead AI Engineer ",
+     image: "8.jpg",
+    description:"Usually teaching machines how to think while the rest of us are still defining the problem. Responsible for many of the team's smartest ideas and most ambitious experiments."
   },
   {
-    name: "[ Founding Member 2 ]",
-    role: "[ Role — e.g., Product Architect ]",
+    name: "Ankit V Patil",
+    role: "Co-Founder & AI Infrastructure Engineer",
+    image: "ankya.jpg",
     description:
-      "[ PLACEHOLDER — Short bio or description of this founding member's expertise and contributions to DONIVBYTES. ]",
+      "Usually found experimenting with AI models and asking 'what if we try this?' one more time.Works on both AI systems and the infrastructure that powers them. Usually found automating something, optimizing something else, and occasionally creating three new ideas before the current one is finished.",
   },
   {
-    name: "[ Founding Member 3 ]",
-    role: "[ Role — e.g., Infrastructure Lead ]",
+    name: "Sanika Gulkotwar",
+    role: "Co-Founder & Operations Lead",
+    image: "9.jpg",
     description:
-      "[ PLACEHOLDER — Short bio or description of this founding member's expertise and contributions to DONIVBYTES. ]",
+      "Responsible for operations, planning, and occasionally reminding the engineering team that products need users, not just features. Also learning the technical side fast enough to keep up with the chaos.",
   },
 ];
 
@@ -44,15 +47,18 @@ function FoundingMemberCard({
       whileHover={{ y: -4 }}
     >
       {/* Image area */}
-      <div className="aspect-square bg-neutral-50 flex items-center justify-center relative overflow-hidden">
-        <div className="w-20 h-20 rounded-full bg-neutral-200 flex items-center justify-center">
-          <span className="text-2xl font-bold text-neutral-400">{initials}</span>
-        </div>
-        {/* Hover overlay */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
-        {/* Accent corner */}
-        <div className="absolute top-4 right-4 w-3 h-3 rounded-full bg-[#ffde59] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      </div>
+      <div className="aspect-square relative overflow-hidden">
+   <Image
+    src={`/team/${member.image}`}
+     alt={member.name}
+     fill
+    className="object-cover transition-transform duration-500 group-hover:scale-105"
+   />
+
+  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
+
+  <div className="absolute top-4 right-4 w-3 h-3 rounded-full bg-[#ffde59] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+</div>
 
       {/* Content */}
       <div className="p-6">

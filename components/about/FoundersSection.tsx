@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Badge from "@/components/ui/Badge";
 
@@ -8,18 +9,18 @@ const founders = [
   {
     name: "Abhishek V Wahurwagh",
     role: "Founder & CEO",
-    image: null,
-    bio: "I am ceo of ",
+    image: "/team/9.png",
+    bio: "BCA graduate, Tech enthusiast, content creator, and founder of DONIVBYTES. Currently building CloudMateFusion with a team of students who decided that creating a startup during exams was somehow a good idea. The mission is simple: make cloud infrastructure easier for students, developers, and small teams.",
     highlights: [
-      "[  in cloud infrastructure ]",
-      "[ Highlight 2 — e.g., Former engineer at X ]",
-      "[ Highlight 3 — e.g., Open source contributor ]",
+      "Building CloudMateFusion before having everything figured out.",
+      "AWS, Kubernetes, Terraform, Docker, and a healthy amount of trial-and-error.",
+      "Taking photos to prove I occasionally leave my desk and touch grass.",
     ],
     imageRight: false,
   },
 ];
 
-function AvatarPlaceholder({ name, size = "lg" }: { name: string; size?: "sm" | "lg" }) {
+function AvatarPlaceholder({ name }: { name: string }) {
   const initials = name
     .split(" ")
     .map((n) => n[0])
@@ -27,10 +28,8 @@ function AvatarPlaceholder({ name, size = "lg" }: { name: string; size?: "sm" | 
     .slice(0, 2)
     .toUpperCase();
 
-  const sizeClasses = size === "lg" ? "w-full h-full text-4xl" : "w-full h-full text-xl";
-
   return (
-    <div className={`${sizeClasses} bg-neutral-100 flex items-center justify-center font-bold text-neutral-400`}>
+    <div className="w-full h-full bg-neutral-100 flex items-center justify-center font-bold text-4xl text-neutral-400">
       {initials.includes("[") ? "?" : initials}
     </div>
   );
@@ -66,7 +65,18 @@ export default function FoundersSection() {
                 >
                   <div className="relative">
                     <div className="w-full aspect-[4/5] max-w-sm mx-auto rounded-3xl overflow-hidden bg-neutral-100 border border-neutral-200">
-                      <AvatarPlaceholder name={founder.name} size="lg" />
+                      {founder.image ? (
+                        <Image
+                          src={founder.image}
+                          alt={founder.name}
+                          width={400}
+                          height={300}
+                          className="w-full h-full object-cover object-top"
+                          priority
+                        />
+                      ) : (
+                        <AvatarPlaceholder name={founder.name} />
+                      )}
                     </div>
                     {/* Name card below image */}
                     <div className="mt-4 text-center">
