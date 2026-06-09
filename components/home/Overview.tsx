@@ -103,7 +103,7 @@ Our flagship initiative, CloudMateFusion (CMF), is being built to make cloud lea
         <AnimatedSection delay={0.3} className="mt-20">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-t border-b border-neutral-100">
             {[
-              { value: "100%", label: "Cloud-Native" },
+              { value: "100%", label: "Flagship Product" },
               { value: "∞", label: "Scalability" },
               { value: "0→1", label: "Product Velocity" },
               { value: "24/7", label: "Uptime Focus" },
