@@ -4,7 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { getToken, clearToken, getMe, CurrentUser } from "@/lib/api";
 
 const learnDropdown = [
   { label: "Courses", href: "/learn/courses", description: "Structured technical courses" },
@@ -31,7 +32,31 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [learnOpen, setLearnOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const learnRef = useRef<HTMLDivElement>(null);
+  const [authUser, setAuthUser] = useState<CurrentUser | null>(null);
+
+  // Load auth state on mount and on route change
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      setAuthUser(null);
+      return;
+    }
+    getMe()
+      .then(setAuthUser)
+      .catch(() => {
+        clearToken();
+        setAuthUser(null);
+      });
+  }, [pathname]);
+
+  function handleLogout() {
+    clearToken();
+    setAuthUser(null);
+    setMobileOpen(false);
+    router.push("/");
+  }
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -228,6 +253,52 @@ export default function Navbar() {
               </Link>
             </div>
 
+            {/* Desktop auth actions */}
+            <div className="hidden md:flex items-center gap-2">
+              {authUser ? (
+                <>
+                  <Link
+                    href="/my-learning"
+                    className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
+                      pathname === "/my-learning"
+                        ? "text-black"
+                        : "text-neutral-500 hover:text-black"
+                    }`}
+                  >
+                    {pathname === "/my-learning" && (
+                      <motion.span
+                        layoutId="nav-pill"
+                        className="absolute inset-0 bg-[#ffde59] rounded-full"
+                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      />
+                    )}
+                    <span className="relative z-10">My Learning</span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="px-4 py-2 text-sm font-medium text-neutral-500 hover:text-black rounded-full transition-all duration-200"
+                  >
+                    Log out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    className="px-4 py-2 text-sm font-medium text-neutral-500 hover:text-black rounded-full transition-all duration-200"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/signup"
+                    className="px-4 py-2 text-sm font-semibold text-black bg-[#ffde59] hover:bg-[#e6c800] rounded-full transition-colors duration-200"
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              )}
+            </div>
+
             {/* Mobile hamburger */}
             <button
               className="md:hidden flex flex-col gap-1.5 p-2 rounded-lg hover:bg-neutral-100 transition-colors"
@@ -337,6 +408,49 @@ export default function Navbar() {
                 </Link>
               </motion.div>
             ))}
+
+            {/* Mobile auth */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: (navLinks.length + 1) * 0.06 }}
+              className="flex flex-col items-center gap-3 mt-2"
+            >
+              {authUser ? (
+                <>
+                  <Link
+                    href="/my-learning"
+                    onClick={() => setMobileOpen(false)}
+                    className="text-3xl font-bold text-black hover:text-[#ffde59] transition-colors"
+                  >
+                    My Learning
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="text-base font-medium text-neutral-400 hover:text-black transition-colors"
+                  >
+                    Log out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    onClick={() => setMobileOpen(false)}
+                    className="text-3xl font-bold text-black hover:text-[#ffde59] transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/signup"
+                    onClick={() => setMobileOpen(false)}
+                    className="text-base font-semibold text-black bg-[#ffde59] hover:bg-[#e6c800] transition-colors px-6 py-2 rounded-full"
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              )}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
