@@ -9,12 +9,14 @@ import {
   getCourseProgress,
   markSubtopicComplete,
   unmarkSubtopicComplete,
+  getMyLiveClasses,
   getToken,
   ApiError,
   PublicCourseDetail,
   PublicChapter,
   PublicSubtopic,
   PublicTopic,
+  LiveClass,
 } from "@/lib/api";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -141,6 +143,7 @@ export default function LearnCoursePage() {
   const [accessDenied, setAccessDenied] = useState(false);
   const [marking, setMarking] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [liveClasses, setLiveClasses] = useState<LiveClass[]>([]);
 
   const activeIndex = flatList.findIndex((f) => f.subtopic.id === activeSubtopic?.id);
 
@@ -179,14 +182,12 @@ export default function LearnCoursePage() {
         // Load progress
         const progress = await getCourseProgress(courseId);
         const done = new Set<number>();
-        // completedIds come from chapter progress; we need subtopic-level
-        // The progress endpoint gives us per-chapter counts, not per-subtopic.
-        // We calculate from the flat list × completed counts per chapter.
-        // For a better UX, re-use the subtopic IDs from the progress chapters.
-        // Since we don't have per-subtopic state from the summary endpoint,
-        // we keep completed set empty — individual marks update it live.
-        // A full subtopic-level fetch would require a separate endpoint (Phase 3).
         setCompletedIds(done);
+
+        // Load live classes (best-effort — non-blocking)
+        getMyLiveClasses(courseId)
+          .then(setLiveClasses)
+          .catch(() => {/* ignore */});
       } catch {
         setAccessDenied(true);
       } finally {
@@ -365,6 +366,59 @@ export default function LearnCoursePage() {
               {flatList.length === 0
                 ? "This course has no lessons yet."
                 : "Select a lesson from the sidebar."}
+            </div>
+          )}
+
+          {/* Live Classes section — always visible when enrolled */}
+          {liveClasses.length > 0 && (
+            <div className="max-w-2xl mx-auto mt-12 pt-8 border-t border-neutral-100">
+              <h2 className="text-base font-bold text-black mb-4">Live Classes</h2>
+              <div className="space-y-3">
+                {liveClasses.map((lc) => {
+                  const isPast = new Date(lc.start_time).getTime() < Date.now();
+                  return (
+                    <div
+                      key={lc.id}
+                      className={`flex items-center justify-between p-4 rounded-xl border ${
+                        isPast ? "border-neutral-100 opacity-60" : "border-[#ffde59]/40 bg-[#ffde59]/5"
+                      }`}
+                    >
+                      <div>
+                        <p className="text-sm font-semibold text-black">{lc.title}</p>
+                        <p className="text-xs text-neutral-500 mt-0.5">
+                          {new Date(lc.start_time).toLocaleString("en-IN", {
+                            timeZone: "Asia/Kolkata",
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                          {" — "}
+                          {new Date(lc.end_time).toLocaleString("en-IN", {
+                            timeZone: "Asia/Kolkata",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </p>
+                      </div>
+                      {!isPast && (
+                        <a
+                          href={lc.meet_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-shrink-0 text-xs font-semibold text-black bg-[#ffde59] hover:bg-[#e6c800] px-3 py-1.5 rounded-full transition-colors"
+                        >
+                          Join Meet
+                        </a>
+                      )}
+                      {isPast && (
+                        <span className="text-xs text-neutral-400 flex-shrink-0">Past</span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
         </main>

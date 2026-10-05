@@ -6,9 +6,10 @@ import Link from "next/link";
 import AdminShell from "@/components/admin/AdminShell";
 import CourseForm, { CourseFormValues } from "@/components/admin/CourseForm";
 import CurriculumEditor from "@/components/admin/CurriculumEditor";
+import LiveClassEditor from "@/components/admin/LiveClassEditor";
 import { getCourse, updateCourse, Course, ApiError } from "@/lib/api";
 
-type Tab = "details" | "curriculum";
+type Tab = "details" | "curriculum" | "live-classes";
 
 export default function EditCoursePage() {
   const params = useParams();
@@ -64,6 +65,7 @@ export default function EditCoursePage() {
   const tabs: { key: Tab; label: string }[] = [
     { key: "details", label: "Course Details" },
     { key: "curriculum", label: "Curriculum" },
+    { key: "live-classes", label: "Live Classes" },
   ];
 
   return (
@@ -123,6 +125,10 @@ export default function EditCoursePage() {
 
           {activeTab === "curriculum" && (
             <CurriculumEditor courseId={courseId} />
+          )}
+
+          {activeTab === "live-classes" && (
+            <LiveClassEditor courseId={courseId} />
           )}
         </>
       )}

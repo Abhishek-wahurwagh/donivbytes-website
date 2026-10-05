@@ -125,6 +125,12 @@ class Course(Base):
         cascade="all, delete-orphan",
         order_by="Chapter.position",
     )
+    live_classes: Mapped[List["LiveClass"]] = relationship(
+        "LiveClass",
+        back_populates="course",
+        cascade="all, delete-orphan",
+        order_by="LiveClass.start_time",
+    )
 
 
 # ─── Chapter ──────────────────────────────────────────────────────────────────
@@ -283,3 +289,35 @@ class LessonProgress(Base):
     __table_args__ = (
         UniqueConstraint("user_id", "subtopic_id", name="uq_progress_user_subtopic"),
     )
+
+
+# ─── LiveClass ────────────────────────────────────────────────────────────────
+
+
+class LiveClass(Base):
+    __tablename__ = "live_classes"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    course_id: Mapped[int] = mapped_column(
+        Integer,
+        ForeignKey("courses.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    title: Mapped[str] = mapped_column(String(500), nullable=False)
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    start_time: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
+    end_time: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
+    meet_url: Mapped[str] = mapped_column(String(2000), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, default=_now
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, default=_now, onupdate=_now
+    )
+
+    course: Mapped["Course"] = relationship("Course", back_populates="live_classes")

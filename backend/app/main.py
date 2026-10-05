@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
-from app.api import auth, courses, curriculum, public_courses, me
+from app.api import auth, courses, curriculum, public_courses, me, live_classes
 
 app = FastAPI(
     title="DONIVBYTES API",
@@ -31,10 +31,16 @@ app.include_router(courses.router, prefix=API_V1)
 app.include_router(curriculum.router, prefix=API_V1)
 app.include_router(public_courses.router, prefix=API_V1)
 app.include_router(me.router, prefix=API_V1)
+app.include_router(live_classes.router, prefix=API_V1)
 
 
 # ─── Health ───────────────────────────────────────────────────────────────────
 
 @app.get("/health", tags=["health"], summary="Health check")
 def health() -> dict:
+    return {"status": "ok"}
+
+
+@app.get("/api/v1/health", tags=["health"], summary="Versioned health check")
+def health_v1() -> dict:
     return {"status": "ok"}

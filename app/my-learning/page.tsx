@@ -3,7 +3,16 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getMyCourses, getToken, clearToken, getMe, MyCourse, CurrentUser } from "@/lib/api";
+import {
+  getMyCourses,
+  getMyLiveClasses,
+  getToken,
+  clearToken,
+  getMe,
+  MyCourse,
+  LiveClass,
+  CurrentUser,
+} from "@/lib/api";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 
 function ProgressBar({ value }: { value: number }) {
@@ -13,6 +22,60 @@ function ProgressBar({ value }: { value: number }) {
         className="h-full bg-[#ffde59] rounded-full transition-all duration-500"
         style={{ width: `${Math.min(value, 100)}%` }}
       />
+    </div>
+  );
+}
+
+function formatIST(iso: string) {
+  return new Date(iso).toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function UpcomingClassSection({ courseId }: { courseId: number }) {
+  const [upcoming, setUpcoming] = useState<LiveClass | null | undefined>(undefined);
+
+  useEffect(() => {
+    getMyLiveClasses(courseId)
+      .then((classes) => {
+        const now = Date.now();
+        const next = classes.find(
+          (lc) => new Date(lc.start_time).getTime() >= now
+        );
+        setUpcoming(next ?? null);
+      })
+      .catch(() => setUpcoming(null));
+  }, [courseId]);
+
+  if (upcoming === undefined) return null; // loading — show nothing
+
+  if (upcoming === null) {
+    return (
+      <p className="text-xs text-neutral-400 mt-3">No upcoming classes.</p>
+    );
+  }
+
+  return (
+    <div className="mt-3 p-3 bg-[#ffde59]/10 border border-[#ffde59]/30 rounded-xl">
+      <p className="text-xs font-semibold text-black mb-1">Upcoming Class</p>
+      <p className="text-xs font-medium text-black">{upcoming.title}</p>
+      <p className="text-xs text-neutral-500 mt-0.5">{formatIST(upcoming.start_time)}</p>
+      <a
+        href={upcoming.meet_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-1.5 mt-2 text-xs font-semibold text-black bg-[#ffde59] hover:bg-[#e6c800] px-3 py-1.5 rounded-full transition-colors"
+      >
+        Join Google Meet
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+          <path d="M2 8L8 2M8 2H3M8 2v5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </a>
     </div>
   );
 }
@@ -147,9 +210,11 @@ export default function MyLearningPage() {
                         <ProgressBar value={mc.progress} />
                       </div>
 
+                      <UpcomingClassSection courseId={mc.course.id} />
+
                       <Link
                         href={`/learn/courses/${mc.course.id}/learn`}
-                        className="block w-full text-center bg-black text-white font-semibold text-sm py-2.5 rounded-xl hover:bg-neutral-800 transition-colors"
+                        className="block w-full text-center bg-black text-white font-semibold text-sm py-2.5 rounded-xl hover:bg-neutral-800 transition-colors mt-3"
                       >
                         Continue Learning
                       </Link>

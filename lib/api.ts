@@ -447,3 +447,70 @@ export async function deleteSubtopic(subtopicId: number): Promise<void> {
     auth: true,
   });
 }
+
+// ─── Live Classes ─────────────────────────────────────────────────────────────
+
+export interface LiveClass {
+  id: number;
+  course_id: number;
+  title: string;
+  description: string | null;
+  start_time: string;
+  end_time: string;
+  meet_url: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface LiveClassInput {
+  title: string;
+  description?: string;
+  start_time: string;
+  end_time: string;
+  meet_url: string;
+}
+
+export async function listAdminLiveClasses(courseId: number): Promise<LiveClass[]> {
+  return request<LiveClass[]>(`/api/v1/admin/courses/${courseId}/live-classes`, {
+    auth: true,
+  });
+}
+
+export async function createAdminLiveClass(
+  courseId: number,
+  data: LiveClassInput
+): Promise<LiveClass> {
+  return request<LiveClass>(`/api/v1/admin/courses/${courseId}/live-classes`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    auth: true,
+  });
+}
+
+export async function getAdminLiveClass(id: number): Promise<LiveClass> {
+  return request<LiveClass>(`/api/v1/admin/live-classes/${id}`, { auth: true });
+}
+
+export async function updateAdminLiveClass(
+  id: number,
+  data: Partial<LiveClassInput>
+): Promise<LiveClass> {
+  return request<LiveClass>(`/api/v1/admin/live-classes/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify(data),
+    auth: true,
+  });
+}
+
+export async function deleteAdminLiveClass(id: number): Promise<void> {
+  return request<void>(`/api/v1/admin/live-classes/${id}`, {
+    method: "DELETE",
+    auth: true,
+  });
+}
+
+export async function getMyLiveClasses(courseId: number): Promise<LiveClass[]> {
+  return request<LiveClass[]>(`/api/v1/me/courses/${courseId}/live-classes`, {
+    auth: true,
+  });
+}
