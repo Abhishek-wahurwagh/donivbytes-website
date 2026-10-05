@@ -5,17 +5,17 @@ import Link from "next/link";
 import Image from "next/image";
 
 const footerLinks = {
-  Navigation: [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
+  Explore: [
+    { label: "Learn", href: "/learn" },
+    { label: "Courses", href: "/learn/courses" },
+    { label: "Learning Paths", href: "/learn/paths" },
+    { label: "Resources", href: "/learn/resources" },
     { label: "Projects", href: "/projects" },
-    { label: "Contact", href: "/contact" },
+    { label: "Experiments", href: "/experiments" },
   ],
-  Projects: [
-    { label: "CloudMateFusion", href: "/projects" },
-    { label: "CMF Overview", href: "/projects#cmf" },
-    { label: "Architecture", href: "/projects#architecture" },
-    { label: "Features", href: "/projects#features" },
+  Company: [
+    { label: "About", href: "/about" },
+    { label: "Contact", href: "/contact" },
   ],
 };
 
@@ -43,7 +43,11 @@ const socialLinks = [
     href: "mailto:hello@donivbytes.com",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     ),
   },
@@ -58,28 +62,31 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-9 h-9  rounded-lg flex items-center justify-center">
-                  <Image
-      src="/VCUT.png"
-      alt="DONIVBYTES Logo"
-      width={36}
-      height={36}
-      className="object-contain"
-      priority
-    />
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center overflow-hidden">
+                <Image
+                  src="/VCUT.png"
+                  alt="DONIVBYTES Logo"
+                  width={36}
+                  height={36}
+                  className="object-contain"
+                  priority
+                />
               </div>
               <span className="font-bold text-xl tracking-tight">DONIVBYTES</span>
             </div>
-            <p className="text-white/50 text-sm leading-relaxed max-w-xs mb-6">
-              One byte at a time. Building cloud-native systems, DevOps pipelines, and AI-powered platforms for the modern engineering era.
+            <p className="text-white/50 text-sm leading-relaxed max-w-xs mb-2">
+              Demystifying technology, one byte at a time.
+            </p>
+            <p className="text-white/30 text-xs leading-relaxed max-w-xs mb-6">
+              An engineering learning and experimentation platform. We break down complex concepts, build real systems, and document what we learn.
             </p>
             <div className="flex items-center gap-3">
               {socialLinks.map((social) => (
                 <motion.a
                   key={social.label}
                   href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target={social.href.startsWith("http") ? "_blank" : undefined}
+                  rel={social.href.startsWith("http") ? "noopener noreferrer" : undefined}
                   aria-label={social.label}
                   className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:text-[#ffde59] hover:border-[#ffde59] transition-all duration-200"
                   whileHover={{ scale: 1.1 }}
@@ -116,11 +123,14 @@ export default function Footer() {
         {/* Contact info */}
         <div className="py-8 border-b border-white/10">
           <div className="flex flex-wrap gap-6 text-sm text-white/40">
-            <a href="mailto:hello@donivbytes.com" className="hover:text-[#ffde59] transition-colors">
+            <a
+              href="mailto:hello@donivbytes.com"
+              className="hover:text-[#ffde59] transition-colors"
+            >
               hello@donivbytes.com
             </a>
             <span>·</span>
-            <span>Cloud Engineering · DevOps · AI Systems</span>
+            <span>Engineering · Learning · Experiments</span>
           </div>
         </div>
 
@@ -130,9 +140,7 @@ export default function Footer() {
             © {new Date().getFullYear()} DONIVBYTES. All rights reserved.
           </p>
           <p className="text-xs text-white/30 flex items-center gap-1">
-            Built with{" "}
-            <span className="text-[#ffde59]">♥</span>
-            {" "}— One byte at a time.
+            Built with <span className="text-[#ffde59]">♥</span> — One byte at a time.
           </p>
         </div>
       </div>

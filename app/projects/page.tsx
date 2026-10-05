@@ -5,7 +5,7 @@ import ScreenshotShowcase from "@/components/projects/ScreenshotShowcase";
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Explore DONIVBYTES projects — CloudMateFusion (CMF), a cloud-native platform for DevOps automation, AI integration, and scalable infrastructure management.",
+    "DONIVBYTES projects — real systems built while learning. Explore CloudMateFusion (CMF), a cloud learning platform built through hands-on exploration of cloud infrastructure and platform engineering.",
 };
 
 export default function ProjectsPage() {

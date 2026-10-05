@@ -16,21 +16,23 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "DONIVBYTES — One byte at a time.",
+    default: "DONIVBYTES — Demystifying technology, one byte at a time.",
     template: "%s | DONIVBYTES",
   },
   description:
-    "DONIVBYTES is a cloud-native engineering platform building scalable infrastructure, DevOps automation, and AI-powered systems. Just Another Cloud Platform.",
+    "DONIVBYTES is an engineering learning and experimentation platform. We break down complex technical concepts, build real systems, and document what we learn along the way.",
   keywords: [
+    "engineering learning",
     "cloud engineering",
+    "Linux",
+    "networking",
+    "Docker",
+    "AWS",
     "DevOps",
-    "AI",
-    "Kubernetes",
     "infrastructure",
-    "platform engineering",
     "DONIVBYTES",
     "CloudMateFusion",
-    "CMF",
+    "engineering experiments",
   ],
   authors: [{ name: "DONIVBYTES" }],
   creator: "DONIVBYTES",
@@ -39,14 +41,15 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://donivbytes.com",
     siteName: "DONIVBYTES",
-    title: "DONIVBYTES — One byte at a time.",
+    title: "DONIVBYTES — Demystifying technology, one byte at a time.",
     description:
-      "Cloud-native engineering platform. DevOps, AI, and scalable systems — built one byte at a time.",
+      "Engineering learning and experimentation platform. We break down complex concepts, build real systems, and document what we learn.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "DONIVBYTES — One byte at a time.",
-    description: "Cloud-native engineering platform. DevOps, AI, and scalable systems.",
+    title: "DONIVBYTES — Demystifying technology, one byte at a time.",
+    description:
+      "Engineering learning and experimentation platform. Break things. Investigate why. Understand deeper.",
   },
   robots: {
     index: true,

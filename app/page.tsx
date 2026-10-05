@@ -3,9 +3,9 @@ import HeroCarousel from "@/components/home/HeroCarousel";
 import Overview from "@/components/home/Overview";
 
 export const metadata: Metadata = {
-  title: "DONIVBYTES — One byte at a time.",
+  title: "DONIVBYTES — Demystifying technology, one byte at a time.",
   description:
-    "DONIVBYTES is a cloud-native engineering platform. Explore CloudMateFusion (CMF) and our engineering ecosystem.",
+    "DONIVBYTES is an engineering learning and experimentation platform. We break down complex technical concepts, build real systems, and document what we learn along the way.",
 };
 
 export default function HomePage() {

@@ -54,7 +54,7 @@ export default function CMFProject() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <AnimatedSection>
-              <Badge variant="accent" className="mb-6">Featured Project</Badge>
+              <Badge variant="accent" className="mb-6">Project</Badge>
               <h1 className="text-5xl sm:text-6xl font-bold text-black leading-tight tracking-tight mb-6">
                 CloudMate
                 <span className="text-[#ffde59]">Fusion</span>
@@ -62,7 +62,7 @@ export default function CMFProject() {
                 <span className="text-2xl sm:text-3xl font-mono text-neutral-400">CMF</span>
               </h1>
               <p className="text-lg text-neutral-500 leading-relaxed mb-8">
-                A unified cloud-native platform that fuses DevOps automation, AI-driven intelligence, and real-time infrastructure orchestration into a single, elegant engineering experience.
+                A project built while exploring cloud infrastructure, automation, and platform engineering. CloudMateFusion is a cloud learning platform designed to help students launch practical cloud labs, virtual machines, and DevOps environments without dealing with infrastructure complexity.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Button variant="accent" size="lg">
@@ -122,12 +122,12 @@ export default function CMFProject() {
       <section className="py-20 bg-neutral-50">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection className="max-w-3xl mx-auto text-center">
-            <Badge variant="outline" className="mb-6">Vision</Badge>
+            <Badge variant="outline" className="mb-6">Background</Badge>
             <h2 className="text-4xl font-bold text-black mb-6 tracking-tight">
-              The future of cloud operations is unified.
+              Built by learning, not by spec.
             </h2>
             <p className="text-lg text-neutral-500 leading-relaxed">
-              CloudMateFusion envisions a world where infrastructure management, deployment automation, and AI-driven optimization converge into a single, intuitive platform — eliminating the complexity that slows engineering teams down and replacing it with clarity, speed, and intelligence.
+              CloudMateFusion emerged from hands-on exploration of cloud infrastructure, Kubernetes, DevOps automation, and platform engineering. It is a real project built while learning — not a product pitch. The goal is to make cloud learning and virtual infrastructure more accessible to students and training institutes.
             </p>
           </AnimatedSection>
         </div>

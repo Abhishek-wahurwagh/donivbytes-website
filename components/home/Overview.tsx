@@ -1,121 +1,301 @@
 "use client";
 
+import Link from "next/link";
 import AnimatedSection from "@/components/ui/AnimatedSection";
 import Badge from "@/components/ui/Badge";
 
+// ─── Three Pillars ────────────────────────────────────────────────────────────
+
 const pillars = [
   {
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Cloud Learning",
-    description: "Help students learn cloud technologies through practical labs and guided environments.",
+    label: "Learn",
+    headline: "Understand how technology actually works.",
+    description:
+      "Not surface-level tutorials. We go deep — from how the Linux kernel schedules processes to how DNS actually resolves a name. Real understanding, not memorized commands.",
+    examples: ["Linux", "Networking", "Git", "Cloud Computing", "AWS", "Docker", "Backend Engineering"],
+    cta: { label: "Explore Learning", href: "/learn" },
+    accent: true,
   },
   {
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "DevOps & Automation",
-    description: "End-to-end CI/CD pipelines, infrastructure as code, and automated deployment workflows.",
+    label: "Build",
+    headline: "Turn concepts into working systems.",
+    description:
+      "Learning means nothing without building. We apply what we understand to real projects — from infrastructure tooling to cloud platforms and backend systems.",
+    examples: ["CloudMateFusion", "OneClickGit", "Infrastructure projects", "Backend projects"],
+    cta: { label: "View Projects", href: "/projects" },
+    accent: false,
   },
   {
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Virtual Labs",
-    description: "Launch ready-to-use Linux, Docker, Kubernetes, and DevOps environments.",
-  },
-  {
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M13 10V3L4 14h7v7l9-11h-7z" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "DevOps Engineering",
-    description: "Automation, CI/CD, Infrastructure as Code, and cloud-native workflows.",
-  },
-  {
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Security First",
-    description: "Zero-trust architecture, compliance automation, and security baked into every deployment.",
-  },
-  {
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Platform Engineering",
-    description: "Building internal developer platforms that accelerate teams and reduce operational overhead.",
+    label: "Explore",
+    headline: "Experiment, break systems, investigate failures.",
+    description:
+      "The most valuable knowledge comes from breaking things deliberately. We run experiments, document what breaks, understand why, and share the findings.",
+    examples: ["Docker networking", "AWS experiments", "Linux internals", "Cloud architecture"],
+    cta: { label: "Explore Experiments", href: "/experiments" },
+    accent: false,
   },
 ];
 
+// ─── Philosophy Steps ─────────────────────────────────────────────────────────
+
+const philosophySteps = [
+  { step: "Understand", sub: "Learn the concept deeply" },
+  { step: "Build", sub: "Implement it from scratch" },
+  { step: "Break", sub: "Push it until it fails" },
+  { step: "Investigate", sub: "Find out exactly why" },
+  { step: "Fix", sub: "Resolve and document it" },
+  { step: "Understand Deeper", sub: "Knowledge compounds", accent: true },
+];
+
+// ─── Components ───────────────────────────────────────────────────────────────
+
+function ArrowRight() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      className="flex-shrink-0 text-neutral-300"
+      aria-hidden="true"
+    >
+      <path
+        d="M3 8h10M9 4l4 4-4 4"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ArrowDown() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      className="flex-shrink-0 text-neutral-300"
+      aria-hidden="true"
+    >
+      <path
+        d="M7 2v10M3 8l4 4 4-4"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+// ─── Main Export ──────────────────────────────────────────────────────────────
+
 export default function Overview() {
   return (
-    <section className="py-28 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Header */}
-        <AnimatedSection className="max-w-3xl mb-20">
-          <Badge variant="outline" className="mb-6">
-            What We Build
-          </Badge>
-          <h2 className="text-4xl sm:text-5xl font-bold text-black leading-tight tracking-tight mb-6">
-            Engineering the future,{" "}
-            <span className="relative inline-block">
-              one byte
-              <span className="absolute -bottom-1 left-0 right-0 h-1 bg-[#ffde59] rounded-full" />
-            </span>{" "}
-            at a time.
-          </h2>
-          <p className="text-lg text-neutral-500 leading-relaxed">
-            DONIVBYTES is a student-led engineering collective focused on cloud computing, DevOps, automation, AI, and practical technology education.
-We build projects, experiment with infrastructure, share what we learn, and create tools that help students gain hands-on experience with modern technology.
-Our flagship initiative, CloudMateFusion (CMF), is being built to make cloud learning and virtual infrastructure more accessible to students and training institutes.
-          </p>
-        </AnimatedSection>
+    <>
+      {/* ── Three Pillars ── */}
+      <section className="py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <AnimatedSection className="max-w-2xl mb-20">
+            <Badge variant="outline" className="mb-6">
+              What We Do
+            </Badge>
+            <h2 className="text-4xl sm:text-5xl font-bold text-black leading-tight tracking-tight mb-6">
+              Learn. Build.{" "}
+              <span className="relative inline-block">
+                Explore
+                <span className="absolute -bottom-1 left-0 right-0 h-1 bg-[#ffde59] rounded-full" />
+              </span>
+              .
+            </h2>
+            <p className="text-lg text-neutral-500 leading-relaxed">
+              DONIVBYTES is an engineering learning and experimentation platform. We break down complex technical concepts, build real systems, and document what happens when things go wrong.
+            </p>
+          </AnimatedSection>
 
-        {/* Pillars grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {pillars.map((pillar, i) => (
-            <AnimatedSection key={pillar.title} delay={i * 0.08}>
-              <div className="group p-6 rounded-2xl border border-neutral-100 hover:border-[#ffde59] hover:shadow-sm transition-all duration-300 bg-white h-full">
-                <div className="w-10 h-10 rounded-xl bg-neutral-50 group-hover:bg-[#ffde59] flex items-center justify-center mb-4 transition-colors duration-300">
-                  {pillar.icon}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {pillars.map((pillar, i) => (
+              <AnimatedSection key={pillar.label} delay={i * 0.1}>
+                <div
+                  className={`group flex flex-col h-full p-8 rounded-2xl border transition-all duration-300 ${
+                    pillar.accent
+                      ? "bg-[#ffde59] border-[#ffde59] hover:shadow-md"
+                      : "bg-white border-neutral-100 hover:border-neutral-300 hover:shadow-sm"
+                  }`}
+                >
+                  <div className="mb-6">
+                    <span
+                      className={`text-xs font-semibold tracking-widest uppercase ${
+                        pillar.accent ? "text-black/50" : "text-neutral-400"
+                      }`}
+                    >
+                      {pillar.label}
+                    </span>
+                    <h3
+                      className={`mt-2 text-xl font-bold leading-snug tracking-tight ${
+                        pillar.accent ? "text-black" : "text-black"
+                      }`}
+                    >
+                      {pillar.headline}
+                    </h3>
+                  </div>
+
+                  <p
+                    className={`text-sm leading-relaxed mb-6 flex-1 ${
+                      pillar.accent ? "text-black/70" : "text-neutral-500"
+                    }`}
+                  >
+                    {pillar.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-1.5 mb-8">
+                    {pillar.examples.map((ex) => (
+                      <span
+                        key={ex}
+                        className={`text-xs px-2.5 py-1 rounded-full ${
+                          pillar.accent
+                            ? "bg-black/10 text-black/70"
+                            : "bg-neutral-100 text-neutral-500"
+                        }`}
+                      >
+                        {ex}
+                      </span>
+                    ))}
+                  </div>
+
+                  <Link
+                    href={pillar.cta.href}
+                    className={`inline-flex items-center gap-2 text-sm font-semibold transition-colors ${
+                      pillar.accent
+                        ? "text-black hover:text-black/70"
+                        : "text-black hover:text-neutral-600"
+                    }`}
+                  >
+                    {pillar.cta.label}
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                      <path
+                        d="M2 7h10M7 3l4 4-4 4"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </Link>
                 </div>
-                <h3 className="font-semibold text-black mb-2">{pillar.title}</h3>
-                <p className="text-sm text-neutral-500 leading-relaxed">{pillar.description}</p>
-              </div>
-            </AnimatedSection>
-          ))}
-        </div>
-
-        {/* Stats row */}
-        <AnimatedSection delay={0.3} className="mt-20">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-t border-b border-neutral-100">
-            {[
-              { value: "100%", label: "Flagship Product" },
-              { value: "∞", label: "Scalability" },
-              { value: "0→1", label: "Product Velocity" },
-              { value: "24/7", label: "Uptime Focus" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-3xl font-bold text-black mb-1">{stat.value}</div>
-                <div className="text-sm text-neutral-400">{stat.label}</div>
-              </div>
+              </AnimatedSection>
             ))}
           </div>
-        </AnimatedSection>
-      </div>
-    </section>
+        </div>
+      </section>
+
+      {/* ── Learning Philosophy ── */}
+      <section className="py-24 bg-neutral-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <AnimatedSection className="max-w-xl mb-16">
+            <Badge variant="outline" className="mb-6">
+              Philosophy
+            </Badge>
+            <h2 className="text-3xl sm:text-4xl font-bold text-black leading-tight tracking-tight mb-4">
+              How we learn.
+            </h2>
+            <p className="text-neutral-500 leading-relaxed">
+              Real engineering knowledge comes from a cycle — not a checklist. Every concept we study goes through the same loop.
+            </p>
+          </AnimatedSection>
+
+          {/* Desktop: horizontal flow */}
+          <AnimatedSection delay={0.15}>
+            <div className="hidden md:flex items-center gap-0 overflow-x-auto pb-2">
+              {philosophySteps.map((s, i) => (
+                <div key={s.step} className="flex items-center">
+                  <div
+                    className={`flex flex-col items-center text-center px-4 py-5 rounded-2xl min-w-[120px] border transition-all ${
+                      s.accent
+                        ? "bg-[#ffde59] border-[#ffde59]"
+                        : "bg-white border-neutral-100"
+                    }`}
+                  >
+                    <span
+                      className={`text-xs font-mono mb-2 ${
+                        s.accent ? "text-black/50" : "text-neutral-300"
+                      }`}
+                    >
+                      0{i + 1}
+                    </span>
+                    <span
+                      className={`text-sm font-bold leading-tight ${
+                        s.accent ? "text-black" : "text-black"
+                      }`}
+                    >
+                      {s.step}
+                    </span>
+                    <span
+                      className={`text-xs mt-1.5 leading-snug ${
+                        s.accent ? "text-black/60" : "text-neutral-400"
+                      }`}
+                    >
+                      {s.sub}
+                    </span>
+                  </div>
+                  {i < philosophySteps.length - 1 && (
+                    <div className="px-2 flex-shrink-0">
+                      <ArrowRight />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Mobile: vertical flow */}
+            <div className="md:hidden flex flex-col items-start gap-0 max-w-xs">
+              {philosophySteps.map((s, i) => (
+                <div key={s.step} className="flex flex-col items-start w-full">
+                  <div
+                    className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl border transition-all ${
+                      s.accent
+                        ? "bg-[#ffde59] border-[#ffde59]"
+                        : "bg-white border-neutral-100"
+                    }`}
+                  >
+                    <span
+                      className={`text-xs font-mono w-6 flex-shrink-0 ${
+                        s.accent ? "text-black/50" : "text-neutral-300"
+                      }`}
+                    >
+                      0{i + 1}
+                    </span>
+                    <div>
+                      <span
+                        className={`text-sm font-bold block ${
+                          s.accent ? "text-black" : "text-black"
+                        }`}
+                      >
+                        {s.step}
+                      </span>
+                      <span
+                        className={`text-xs ${
+                          s.accent ? "text-black/60" : "text-neutral-400"
+                        }`}
+                      >
+                        {s.sub}
+                      </span>
+                    </div>
+                  </div>
+                  {i < philosophySteps.length - 1 && (
+                    <div className="pl-5 py-1">
+                      <ArrowDown />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+    </>
   );
 }

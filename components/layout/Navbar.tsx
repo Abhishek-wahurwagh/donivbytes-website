@@ -1,21 +1,37 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+
+const learnDropdown = [
+  { label: "Courses", href: "/learn/courses", description: "Structured technical courses" },
+  { label: "Learning Paths", href: "/learn/paths", description: "Guided progression routes" },
+  { label: "Resources", href: "/learn/resources", description: "Notes, references & guides" },
+  { label: "My Learning", href: "/learn/my-learning", description: "Your progress & enrollments" },
+];
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
   { label: "Projects", href: "/projects" },
+  { label: "Experiments", href: "/experiments" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
+];
+
+const mobileLearnLinks = [
+  { label: "Learn", href: "/learn" },
+  ...learnDropdown.map((l) => ({ label: `  ${l.label}`, href: l.href })),
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("/");
+  const [learnOpen, setLearnOpen] = useState(false);
+  const pathname = usePathname();
+  const learnRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -23,9 +39,24 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close dropdown when clicking outside
   useEffect(() => {
-    setActiveLink(window.location.pathname);
+    const handleClickOutside = (e: MouseEvent) => {
+      if (learnRef.current && !learnRef.current.contains(e.target as Node)) {
+        setLearnOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // Close dropdown on route change
+  useEffect(() => {
+    setLearnOpen(false);
+    setMobileOpen(false);
+  }, [pathname]);
+
+  const isLearnActive = pathname.startsWith("/learn");
 
   return (
     <>
@@ -34,9 +65,7 @@ export default function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "py-3 mx-4 mt-3"
-            : "py-4 mx-0 mt-0"
+          scrolled ? "py-3 mx-4 mt-3" : "py-4 mx-0 mt-0"
         }`}
       >
         <div
@@ -49,18 +78,126 @@ export default function Navbar() {
           <nav className="flex items-center justify-between h-14">
             {/* Left — Nav Links */}
             <div className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setActiveLink(link.href)}
-                  className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 group ${
-                    activeLink === link.href
+              {/* Home */}
+              <Link
+                href="/"
+                className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
+                  pathname === "/"
+                    ? "text-black"
+                    : "text-neutral-500 hover:text-black"
+                }`}
+              >
+                {pathname === "/" && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    className="absolute inset-0 bg-[#ffde59] rounded-full"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">Home</span>
+              </Link>
+
+              {/* Learn dropdown */}
+              <div ref={learnRef} className="relative">
+                <button
+                  onClick={() => setLearnOpen((v) => !v)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setLearnOpen((v) => !v);
+                    }
+                    if (e.key === "Escape") setLearnOpen(false);
+                  }}
+                  aria-haspopup="true"
+                  aria-expanded={learnOpen}
+                  className={`relative flex items-center gap-1 px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 cursor-pointer ${
+                    isLearnActive
                       ? "text-black"
                       : "text-neutral-500 hover:text-black"
                   }`}
                 >
-                  {activeLink === link.href && (
+                  {isLearnActive && (
+                    <motion.span
+                      layoutId="nav-pill"
+                      className="absolute inset-0 bg-[#ffde59] rounded-full"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative z-10">Learn</span>
+                  <motion.svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    className="relative z-10"
+                    animate={{ rotate: learnOpen ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <path
+                      d="M2 4l4 4 4-4"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </motion.svg>
+                </button>
+
+                <AnimatePresence>
+                  {learnOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                      transition={{ duration: 0.18, ease: [0.25, 0.1, 0.25, 1] }}
+                      className="absolute top-full left-0 mt-2 w-60 bg-white border border-neutral-150 rounded-2xl shadow-lg overflow-hidden"
+                      role="menu"
+                    >
+                      <div className="p-1.5">
+                        <Link
+                          href="/learn"
+                          className="flex items-center gap-2 px-3 py-2.5 rounded-xl hover:bg-[#ffde59]/20 transition-colors group"
+                          role="menuitem"
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#ffde59] flex-shrink-0" />
+                          <div>
+                            <div className="text-sm font-semibold text-black">Learn</div>
+                            <div className="text-xs text-neutral-400">Overview & approach</div>
+                          </div>
+                        </Link>
+                        <div className="my-1.5 border-t border-neutral-100" />
+                        {learnDropdown.map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className="flex items-center gap-2 px-3 py-2.5 rounded-xl hover:bg-neutral-50 transition-colors group"
+                            role="menuitem"
+                          >
+                            <div className="w-1 h-1 rounded-full bg-neutral-300 group-hover:bg-[#ffde59] flex-shrink-0 transition-colors" />
+                            <div>
+                              <div className="text-sm font-medium text-black">{item.label}</div>
+                              <div className="text-xs text-neutral-400">{item.description}</div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Rest of nav links */}
+              {navLinks.slice(1).map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
+                    pathname === link.href
+                      ? "text-black"
+                      : "text-neutral-500 hover:text-black"
+                  }`}
+                >
+                  {pathname === link.href && (
                     <motion.span
                       layoutId="nav-pill"
                       className="absolute inset-0 bg-[#ffde59] rounded-full"
@@ -72,20 +209,19 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Right — Logo + Brand */}
-            
-            <div className="flex items-center gap-0">
+            {/* Center / Right — Logo + Brand */}
+            <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-  <Image
-    src="/VCUT.png"
-    alt="DONIVBYTES Logo"
-    width={32}
-    height={32}
-    className="object-contain"
-    priority
-  />
-</div>
-              <Link href="/" className="flex items-center gap-2">
+                <Image
+                  src="/VCUT.png"
+                  alt="DONIVBYTES Logo"
+                  width={32}
+                  height={32}
+                  className="object-contain"
+                  priority
+                />
+              </div>
+              <Link href="/" className="flex items-center">
                 <span className="font-bold text-base tracking-tight text-black">
                   DONIVBYTES
                 </span>
@@ -124,7 +260,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.25 }}
-            className="fixed top-0 left-0 right-0 bottom-0 z-40 bg-white flex flex-col items-center justify-center gap-6"
+            className="fixed top-0 left-0 right-0 bottom-0 z-40 bg-white flex flex-col items-center justify-center gap-5 overflow-y-auto py-20"
           >
             <button
               className="absolute top-6 right-6 p-2 rounded-full hover:bg-neutral-100"
@@ -132,22 +268,69 @@ export default function Navbar() {
               aria-label="Close menu"
             >
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M15 5L5 15M5 5l10 10" stroke="black" strokeWidth="1.5" strokeLinecap="round" />
+                <path
+                  d="M15 5L5 15M5 5l10 10"
+                  stroke="black"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
               </svg>
             </button>
-            {navLinks.map((link, i) => (
+
+            {/* Home */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0 }}
+            >
+              <Link
+                href="/"
+                onClick={() => setMobileOpen(false)}
+                className="text-3xl font-bold text-black hover:text-[#ffde59] transition-colors"
+              >
+                Home
+              </Link>
+            </motion.div>
+
+            {/* Learn group */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.06 }}
+              className="flex flex-col items-center gap-2"
+            >
+              <Link
+                href="/learn"
+                onClick={() => setMobileOpen(false)}
+                className="text-3xl font-bold text-black hover:text-[#ffde59] transition-colors"
+              >
+                Learn
+              </Link>
+              <div className="flex flex-wrap justify-center gap-3 mt-1">
+                {learnDropdown.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="text-sm text-neutral-400 hover:text-black transition-colors border border-neutral-200 rounded-full px-3 py-1"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Remaining links */}
+            {navLinks.slice(1).map((link, i) => (
               <motion.div
                 key={link.href}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }}
+                transition={{ delay: (i + 2) * 0.06 }}
               >
                 <Link
                   href={link.href}
-                  onClick={() => {
-                    setActiveLink(link.href);
-                    setMobileOpen(false);
-                  }}
+                  onClick={() => setMobileOpen(false)}
                   className="text-3xl font-bold text-black hover:text-[#ffde59] transition-colors"
                 >
                   {link.label}
